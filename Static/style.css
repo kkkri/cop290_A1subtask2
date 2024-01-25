@@ -70,5 +70,26 @@ button {
     background-color: #c82333;
 }
 
+/* Add this to your style.css */
+body {
+    background-image: url('/static/bg.jpg');  /* Adjust the path based on your folder structure */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh; /* Ensure full viewport height */
+    margin: 0; /* Remove default margin */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-container {
+    background-color: rgba(255, 255, 255, 0.8); /* Add a semi-transparent background for better readability */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+
 
 
