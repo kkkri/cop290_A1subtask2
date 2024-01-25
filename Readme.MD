@@ -18,6 +18,11 @@ This web application is developed as a part of the COP290 course. It's a Flask-b
 ## Usage
 
 To launch the web application, run:
+In case of windows:-
+
+```
+python app2.py 
+```
  
   ```
   python3 app.py
