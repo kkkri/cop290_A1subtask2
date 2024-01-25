@@ -1,0 +1,74 @@
+<!-- templates/home.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Analysis</title>
+</head>
+<body>
+    <h1>Stock Analysis</h1>
+
+    <form action="/plot" method="post">
+        <label for="symbol">Stock Symbol:</label>
+        <input type="text" name="symbol" required>
+
+        <label for="years">Number of Years:</label>
+        <input type="number" name="years" required>
+
+        <button type="submit">Plot</button>
+    </form>
+
+    {% if plot_url %}
+        <img src="data:image/png;base64,{{ plot_url }}" alt="Stock Plot">
+    {% endif %}
+</body>
+</html> -->
+
+
+<!-- templates/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Analysis</title>
+</head>
+<body>
+    <h1>Stock Analysis</h1>
+
+    <form action="/plot" method="post">
+        <label for="symbol">Stock Symbol:</label>
+        <input type="text" name="symbol" required>
+
+        <label for="years">Number of Years:</label>
+        <input type="number" name="years" required>
+
+        <button type="submit">Plot</button>
+    </form>
+
+    <div class="filter-dropdown">
+        <label for="filter">Filter:</label>
+        <select id="filter" name="filter">
+            <option value="monthly">Monthly</option>
+            <option value="quarterly">Quarterly</option>
+            <option value="yearly">Yearly</option>
+        </select>
+        <button type="button" onclick="applyFilter()">Apply Filter</button>
+    </div>
+
+    {% if plot_url %}
+        <img src="data:image/png;base64,{{ plot_url }}" alt="Stock Plot">
+    {% endif %}
+
+    <script>
+        function applyFilter() {
+            var filterValue = document.getElementById("filter").value;
+            var form = document.querySelector('form');
+            form.action = '/plot?filter=' + filterValue;
+            form.submit();
+        }
+    </script>
+</body>
+</html>
+
