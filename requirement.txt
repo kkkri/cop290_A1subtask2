@@ -8,3 +8,7 @@ MarkupSafe==2.1.3
 SQLAlchemy==2.0.25
 typing_extensions==4.9.0
 Werkzeug==3.0.1
+jugaad_data
+pandas
+matplotlib
+pyarrow
