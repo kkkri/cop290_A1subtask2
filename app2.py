@@ -179,66 +179,98 @@ def multiple_graph():
     else:
         return redirect(url_for('index'))
     
+@app.route('/multiple_plot', methods=['POST'])
+def multiple_plot():
+    # Get stock symbols and years from the form
+    symbols = [request.form.get(f'symbol{i}') for i in range(1, 4)]
+    years = int(request.form.get('years'))
 
-@app.route('/plot_multiple', methods=['GET', 'POST'])
-def plot_multiple():
-    try:
-        symbols = ['symbol1', 'symbol2', 'symbol3']
-        years = [int(request.form.get(f'years{i}', 0)) for i in range(1, 4)]
-        filter_type = request.args.get('filter', 'monthly')
+    # Generate CSV files for each stock symbol
+    for symbol in symbols:
+        subprocess.run(['python', 'main.py', symbol, str(years)], check=True)
 
-        for i, symbol in enumerate(symbols):
-            try:
-                # Run main.py for each stock symbol and years
-                subprocess.run(['python', 'main.py', request.form.get(symbol), str(years[i])], check=True)
-            except subprocess.CalledProcessError:
-                flash(f'Error: Failed to run main.py for {request.form.get(symbol)}.', 'error')
-                return render_template('multiple_graphs.html')
+    # Plot the data using Matplotlib
+    plt.figure(figsize=(12, 8))
 
-        plt.figure(figsize=(10, 6))
+    for symbol in symbols:
+        df = pd.read_csv(f"{symbol}.csv", parse_dates=['DATE'])
+        filtered_data = df[df['DATE'] >= pd.to_datetime('today') - pd.DateOffset(years=years)]
+        plt.plot(filtered_data['DATE'], filtered_data['CLOSE'], marker='o', label=symbol)
 
-        for i, symbol in enumerate(symbols):
-            # Read data from the CSV file
-            df = pd.read_csv(f"{request.form.get(symbol)}.csv", parse_dates=['DATE'])
+    plt.title(f'Stock Prices for Multiple Symbols over the last {years} years')
+    plt.xlabel('Date')
+    plt.ylabel('Closing Price')
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
 
-            # Filter data based on user input
-        filtered_data = df[df['DATE'] >= pd.to_datetime('today') - pd.DateOffset(years=years[i])]
+    # Save the plot to a BytesIO object
+    img = BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
 
-        if filtered_data.empty:
-            flash(f'No data available for {request.form.get(symbol)} and {years[i]} years.', 'error')
-            return render_template('multiple_graphs.html')
+    # Send the image file directly to the client
+    return send_file(img, mimetype='image/png')
 
-            # Adjust time interval based on the filter parameter
-        if filter_type == 'monthly':
-            filtered_data = filtered_data.resample('M', on='DATE').mean()
-        elif filter_type == 'quarterly':
-            filtered_data = filtered_data.resample('Q', on='DATE').mean()
-        elif filter_type == 'yearly':
-            filtered_data = filtered_data.resample('Y', on='DATE').mean()
+# @app.route('/plot_multiple', methods=['GET', 'POST'])
+# def plot_multiple():
+#     try:
+#         symbols = ['symbol1', 'symbol2', 'symbol3']
+#         years = [int(request.form.get(f'years{i}', 0)) for i in range(1, 4)]
+#         filter_type = request.args.get('filter', 'monthly')
 
-            # Plot the data
-        plt.bar(filtered_data.index, filtered_data['CLOSE'], label=f'Stock {i+1}')
+#         for i, symbol in enumerate(symbols):
+#             try:
+#                 # Run main.py for each stock symbol and years
+#                 subprocess.run(['python', 'main.py', request.form.get(symbol), str(years[i])], check=True)
+#             except subprocess.CalledProcessError:
+#                 flash(f'Error: Failed to run main.py for {request.form.get(symbol)}.', 'error')
+#                 return render_template('multiple_graphs.html')
 
-        plt.title(f'Stock Prices Comparison over the last {max(years)} years')
-        plt.xlabel('Date')
-        plt.ylabel('Average Closing Price')
-        plt.legend()
+#         plt.figure(figsize=(10, 6))
 
-        # Customize date format on x-axis if needed
-        plt.gca().xaxis.set_major_formatter(plt.matplotlib.dates.DateFormatter('%Y-%m-%d'))
+#         for i, symbol in enumerate(symbols):
+#             # Read data from the CSV file
+#             df = pd.read_csv(f"{request.form.get(symbol)}.csv", parse_dates=['DATE'])
 
-        # Save the plot to a BytesIO object
-        img = BytesIO()
-        plt.savefig(img, format='png')
-        img.seek(0)
+#             # Filter data based on user input
+#         filtered_data = df[df['DATE'] >= pd.to_datetime('today') - pd.DateOffset(years=years[i])]
 
-        # Embed the plot in the HTML template
-        plot_url = base64.b64encode(img.getvalue()).decode('utf8')
-        return render_template('multiple_graphs.html', plot_url=plot_url)
+#         if filtered_data.empty:
+#             flash(f'No data available for {request.form.get(symbol)} and {years[i]} years.', 'error')
+#             return render_template('multiple_graphs.html')
 
-    except pd.errors.EmptyDataError:
-        flash('Error: Empty data file. Please check if data is being generated.', 'error')
-        return render_template('multiple_graphs.html')
+#             # Adjust time interval based on the filter parameter
+#         if filter_type == 'monthly':
+#             filtered_data = filtered_data.resample('M', on='DATE').mean()
+#         elif filter_type == 'quarterly':
+#             filtered_data = filtered_data.resample('Q', on='DATE').mean()
+#         elif filter_type == 'yearly':
+#             filtered_data = filtered_data.resample('Y', on='DATE').mean()
+
+#             # Plot the data
+#         plt.bar(filtered_data.index, filtered_data['CLOSE'], label=f'Stock {i+1}')
+
+#         plt.title(f'Stock Prices Comparison over the last {max(years)} years')
+#         plt.xlabel('Date')
+#         plt.ylabel('Average Closing Price')
+#         plt.legend()
+
+#         # Customize date format on x-axis if needed
+#         plt.gca().xaxis.set_major_formatter(plt.matplotlib.dates.DateFormatter('%Y-%m-%d'))
+
+#         # Save the plot to a BytesIO object
+#         img = BytesIO()
+#         plt.savefig(img, format='png')
+#         img.seek(0)
+
+#         # Embed the plot in the HTML template
+#         plot_url = base64.b64encode(img.getvalue()).decode('utf8')
+#         return render_template('multiple_graphs.html', plot_url=plot_url)
+
+#     except pd.errors.EmptyDataError:
+#         flash('Error: Empty data file. Please check if data is being generated.', 'error')
+#         return render_template('multiple_graphs.html')
 
 @app.route('/list_stocks')
 def list_stocks():
