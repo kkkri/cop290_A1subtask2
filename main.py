@@ -32,8 +32,8 @@ def write_to_csv(data, filename):
 def main(symbol, years):
 
     stock_data = download_stock_data(symbol, years)
-    write_to_csv(stock_data, "stocks.csv")
-    # write_to_csv(stock_data, f"{symbol}.csv")
+    # write_to_csv(stock_data, "stocks.csv")
+    write_to_csv(stock_data, f"{symbol}.csv")
 
 if __name__ == "__main__":
     # if len(sys.argv) != 3:

@@ -82,7 +82,8 @@ def plot():
         subprocess.run(['python', 'main.py', symbol, str(years)], check=True)
 
         # Read data from the CSV file
-        df = pd.read_csv('stocks.csv', parse_dates=['DATE'])
+        # df = pd.read_csv('stocks.csv', parse_dates=['DATE'])
+        df = pd.read_csv(f"{symbol}.csv", parse_dates=['DATE'])
 
         # Filter data based on user input
         filtered_data = df[df['DATE'] >= pd.to_datetime('today') - pd.DateOffset(years=years)]
@@ -123,6 +124,81 @@ def plot():
     except pd.errors.EmptyDataError:
         flash('Error: Empty data file. Please check if data is being generated.', 'error')
         return render_template('home.html')
+    
+@app.route('/multiple_graph')
+def multiple_graph():
+    if 'user_id' in session:
+        return render_template('multiple_graph.html', username=session['username'])
+    else:
+        return redirect(url_for('index'))
+    
+
+@app.route('/plot_multiple', methods=['GET', 'POST'])
+def plot_multiple():
+    try:
+        symbols = ['symbol1', 'symbol2', 'symbol3']
+        years = [int(request.form.get(f'years{i}', 0)) for i in range(1, 4)]
+        filter_type = request.args.get('filter', 'monthly')
+
+        for i, symbol in enumerate(symbols):
+            try:
+                # Run main.py for each stock symbol and years
+                subprocess.run(['python', 'main.py', request.form.get(symbol), str(years[i])], check=True)
+            except subprocess.CalledProcessError:
+                flash(f'Error: Failed to run main.py for {request.form.get(symbol)}.', 'error')
+                return render_template('multiple_graphs.html')
+
+        plt.figure(figsize=(10, 6))
+
+        for i, symbol in enumerate(symbols):
+            # Read data from the CSV file
+            df = pd.read_csv(f"{request.form.get(symbol)}.csv", parse_dates=['DATE'])
+
+            # Filter data based on user input
+        filtered_data = df[df['DATE'] >= pd.to_datetime('today') - pd.DateOffset(years=years[i])]
+
+        if filtered_data.empty:
+            flash(f'No data available for {request.form.get(symbol)} and {years[i]} years.', 'error')
+            return render_template('multiple_graphs.html')
+
+            # Adjust time interval based on the filter parameter
+        if filter_type == 'monthly':
+            filtered_data = filtered_data.resample('M', on='DATE').mean()
+        elif filter_type == 'quarterly':
+            filtered_data = filtered_data.resample('Q', on='DATE').mean()
+        elif filter_type == 'yearly':
+            filtered_data = filtered_data.resample('Y', on='DATE').mean()
+
+            # Plot the data
+        plt.bar(filtered_data.index, filtered_data['CLOSE'], label=f'Stock {i+1}')
+
+        plt.title(f'Stock Prices Comparison over the last {max(years)} years')
+        plt.xlabel('Date')
+        plt.ylabel('Average Closing Price')
+        plt.legend()
+
+        # Customize date format on x-axis if needed
+        plt.gca().xaxis.set_major_formatter(plt.matplotlib.dates.DateFormatter('%Y-%m-%d'))
+
+        # Save the plot to a BytesIO object
+        img = BytesIO()
+        plt.savefig(img, format='png')
+        img.seek(0)
+
+        # Embed the plot in the HTML template
+        plot_url = base64.b64encode(img.getvalue()).decode('utf8')
+        return render_template('multiple_graphs.html', plot_url=plot_url)
+
+    except pd.errors.EmptyDataError:
+        flash('Error: Empty data file. Please check if data is being generated.', 'error')
+        return render_template('multiple_graphs.html')
+
+@app.route('/list_stocks')
+def list_stocks():
+    if 'user_id' in session:
+        return render_template('list.html', username=session['username'])
+    else:
+        return redirect(url_for('index'))
     
 @app.route('/logout')
 def logout():
