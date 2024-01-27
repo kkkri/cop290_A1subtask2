@@ -112,7 +112,7 @@
             </li> -->
       </ul>
       <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
         <a href="{{ url_for('logout') }}" class="logout-button">
           <button class="btn btn-outline-success my-2 my-sm-0" type="button">Logout</button>
         </a>
@@ -155,19 +155,20 @@
       crossorigin="anonymous"></script>
     <label for="years">Number of Years:</label>
     <input type="number" name="years" required>
-
+    <div class="filter-dropdown">
+      <label for="filter">Filter:</label>
+      <select id="filter" name="filter">
+        <option value="monthly">Monthly</option>
+        <option value="quarterly">Quarterly</option>
+        <option value="yearly">Yearly</option>
+      </select>
+      <button type="button" onclick="applyFilter()">Apply Filter</button>
+    </div>
     <button type="submit">Plot</button>
+    
   </form>
-
-  <div class="filter-dropdown">
-    <label for="filter">Filter:</label>
-    <select id="filter" name="filter">
-      <option value="monthly">Monthly</option>
-      <option value="quarterly">Quarterly</option>
-      <option value="yearly">Yearly</option>
-    </select>
-    <!-- <button type="button" onclick="applyFilter()">Apply Filter</button> -->
-  </div>
+  <form action="/single_graph"><button type="submit">Remove graph</button></form>
+  
 
   {% if plot_url %}
   <img src="data:image/png;base64,{{ plot_url }}" alt="Stock Plot">
