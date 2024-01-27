@@ -2,6 +2,8 @@
 from flask import Flask, render_template, request, flash, session, redirect, url_for, send_file
 import subprocess
 import pandas as pd
+from datetime import datetime, timedelta
+from jugaad_data.nse import bhavcopy_save
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
@@ -272,12 +274,63 @@ def multiple_plot():
 #         flash('Error: Empty data file. Please check if data is being generated.', 'error')
 #         return render_template('multiple_graphs.html')
 
+# @app.route('/list_stocks')
+# def list_stocks():
+#     if 'user_id' in session:
+#         return render_template('list.html', username=session['username'])
+#     else:
+#         return redirect(url_for('index'))
+    
+def get_filtered_companies(apply_filters=False):
+    current_date = datetime.now().date()
+    three_days_ago = current_date - timedelta(days=3)
+    input_csv_file = bhavcopy_save(three_days_ago, "./")
+    input2 = 'ind_nifty50list.csv'
+
+    df = pd.read_csv(input_csv_file)
+    df2 = pd.read_csv(input2)
+    output_csv_file = 'allstocks.csv'
+    output2 = 'allstocks2.csv'
+
+    selected_columns = ['SYMBOL', 'SERIES', 'CLOSE']
+    selected_columns2 = ['Symbol', 'Company Name']
+    selected_data = df[selected_columns]
+    selected_data2 = df2[selected_columns2]
+
+    selected_data = selected_data[selected_data['SERIES'] == 'EQ']
+    selected_data.to_csv(output_csv_file, index=False)
+    selected_data2.to_csv(output2, index=False)
+
+    allstocks_df = pd.read_csv('allstocks.csv')
+    allstocks2_df = pd.read_csv('allstocks2.csv')
+
+    # Filter rows in allstocks.csv based on symbols present in allstocks2.csv
+    filtered_allstocks_df = allstocks_df[allstocks_df['SYMBOL'].isin(allstocks2_df['Symbol'])]
+
+    if apply_filters:
+        average_close = filtered_allstocks_df['CLOSE'].mean()
+        # Filter companies based on average close price
+        filtered_companies = filtered_allstocks_df[filtered_allstocks_df['CLOSE'] > average_close]['SYMBOL'].tolist()
+        return filtered_companies
+    else:
+        all_companies = allstocks2_df['Symbol'].tolist()
+        return all_companies
+
 @app.route('/list_stocks')
 def list_stocks():
     if 'user_id' in session:
-        return render_template('list.html', username=session['username'])
+        companies = get_filtered_companies()
+        return render_template('list.html', username=session['username'], companies=companies)
     else:
         return redirect(url_for('index'))
+    # companies = get_filtered_companies()
+    # return render_template('list.html', companies=companies)
+
+@app.route('/apply_filters', methods=['POST'])
+def apply_filters():
+    apply_filters = 'average_price' in request.form
+    companies = get_filtered_companies(apply_filters)
+    return render_template('list.html', companies=companies)
     
 @app.route('/logout')
 def logout():

@@ -33,7 +33,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <title>List of stocks</title>
+    <title>Nifty 50 Company List</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        li {
+            margin: 5px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -82,7 +120,21 @@
           </form>
         </div>
       </nav>
-    <h2>List of stocks</h2>
+
+      <h1>Nifty 50 Company List</h1>
+
+      <form action="/apply_filters" method="post">
+          <label for="average_price">Apply Filters: By Average Price</label>
+          <input type="checkbox" id="average_price" name="average_price">
+          <button type="submit">Apply</button>
+      </form>
+  
+      <ul>
+          {% for company in companies %}
+              <li>{{ company }}</li>
+          {% endfor %}
+      </ul>
+    <!-- <h2>List of stocks</h2> -->
 
     <!-- <form action="/plot_multiple" method="post">
       <label for="symbol1">Stock Symbol 1:</label>
