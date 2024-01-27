@@ -91,7 +91,7 @@ def plot():
 
         if filtered_data.empty:
             flash('No data available for the selected stock and years.', 'error')
-            return render_template('home.html')
+            return render_template('home2.html')
 
         # Adjust time interval based on the filter parameter
         if filter_type == 'monthly':
@@ -117,15 +117,24 @@ def plot():
 
         # Embed the plot in the HTML template
         plot_url = base64.b64encode(img.getvalue()).decode('utf8')
-        return render_template('home.html', plot_url=plot_url)
+        return render_template('home2.html', plot_url=plot_url)
 
     except subprocess.CalledProcessError:
         flash('Error: Failed to run main.py. Please check the command line arguments.', 'error')
-        return render_template('home.html')
+        return render_template('home2.html')
     except pd.errors.EmptyDataError:
         flash('Error: Empty data file. Please check if data is being generated.', 'error')
-        return render_template('home.html')
+        return render_template('home2.html')
     
+
+@app.route('/single_graph')
+def single_graph():
+    if 'user_id' in session:
+        return render_template('home2.html', username=session['username'])
+    else:
+        return redirect(url_for('index'))
+    
+
 @app.route('/multiple_graph')
 def multiple_graph():
     if 'user_id' in session:
