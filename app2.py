@@ -2,7 +2,7 @@
 from flask import Flask, render_template, request, flash, session, redirect, url_for, send_file
 import subprocess
 import pandas as pd
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from jugaad_data.nse import bhavcopy_save
 import matplotlib.pyplot as plt
 from io import BytesIO
@@ -282,9 +282,10 @@ def multiple_plot():
 #         return redirect(url_for('index'))
     
 def get_filtered_companies(apply_filters=False):
-    current_date = datetime.now().date()
-    three_days_ago = current_date - timedelta(days=3)
-    input_csv_file = bhavcopy_save(three_days_ago, "./")
+    # current_date = datetime.now().date()
+    # three_days_ago = current_date - timedelta(days=3)
+    # three_days_ago = '2024-01-25
+    input_csv_file = bhavcopy_save(date(2024,1,25), "./")
     input2 = 'ind_nifty50list.csv'
 
     df = pd.read_csv(input_csv_file)
