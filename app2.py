@@ -80,6 +80,7 @@ def dashboard():
 def plot():
     symbol = request.form.get('symbol')
     from_date_str = request.form.get('fromDate')
+    # print(from_date_str)
     to_date_str = request.form.get('toDate')
     # interval = request.form.get('interval')
 
@@ -130,6 +131,13 @@ def plot_daily():
     from_date = datetime.strptime(from_date_str, "%Y-%m-%d")
     to_date = datetime.strptime(to_date_str, "%Y-%m-%d")
 
+    date_difference = to_date - from_date
+
+    # Calculate the number of years
+    years = ceil(date_difference.days / 365.25)
+
+    subprocess.run(['python', 'main.py', symbol, str(years)], check=True)
+
     # Filter data based on the user-specified date range
     df = pd.read_csv(f"{symbol}.csv", parse_dates=['DATE'])
     filtered_data = df[(df['DATE'] >= from_date) & (df['DATE'] <= to_date)]
@@ -148,6 +156,8 @@ def plot_daily():
     plt.legend()
     plt.tight_layout()
 
+    plt.xlim(from_date, to_date)
+
     img = BytesIO()
     plt.savefig(img, format='png')
     img.seek(0)
@@ -165,19 +175,29 @@ def plot_weekly():
     from_date = datetime.strptime(from_date_str, "%Y-%m-%d")
     to_date = datetime.strptime(to_date_str, "%Y-%m-%d")
 
-    # Filter data based on the user-specified date range and resample to weekly frequency
+    date_difference = to_date - from_date
+
+    # Calculate the number of years
+    years = ceil(date_difference.days / 365.25)
+
+    subprocess.run(['python', 'main.py', symbol, str(years)], check=True)
+
+    # Read the CSV file
     df = pd.read_csv(f"{symbol}.csv", parse_dates=['DATE'])
+
+    # Filter data based on the user-specified date range
     filtered_data = df[(df['DATE'] >= from_date) & (df['DATE'] <= to_date)]
+
     if filtered_data.empty:
         return render_template('home2.html')
 
-    # Resample to weekly frequency, considering Monday as the start of the week
-    weekly_data = filtered_data.resample('W-Mon').last()
+    # Extract every 7th entry starting from the 2nd row
+    weekly_data = filtered_data.iloc[1::7]
 
     if weekly_data.empty:
         return render_template('home2.html')
 
-    # Plotting code remains the same
+    # Plotting code
     plt.figure(figsize=(10, 6))
     plt.plot(weekly_data['DATE'], weekly_data['CLOSE'], marker='o', label='Closing Price')
 
@@ -187,6 +207,113 @@ def plot_weekly():
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
+
+    plt.xlim(from_date, to_date)
+
+    img = BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
+
+    return send_file(img, mimetype='image/png')
+
+# Monthly plot route
+@app.route('/plot/monthly', methods=['POST'])
+def plot_monthly():
+    symbol = request.form.get('symbol')
+    from_date_str = request.form.get('fromDate')
+    to_date_str = request.form.get('toDate')
+
+    # Convert string dates to datetime objects
+    from_date = datetime.strptime(from_date_str, "%Y-%m-%d")
+    to_date = datetime.strptime(to_date_str, "%Y-%m-%d")
+
+    date_difference = to_date - from_date
+
+    # Calculate the number of years
+    years = ceil(date_difference.days / 365.25)
+
+    subprocess.run(['python', 'main.py', symbol, str(years)], check=True)
+
+    # Read the CSV file
+    df = pd.read_csv(f"{symbol}.csv", parse_dates=['DATE'])
+
+    # Filter data based on the user-specified date range
+    filtered_data = df[(df['DATE'] >= from_date) & (df['DATE'] <= to_date)]
+
+    if filtered_data.empty:
+        return render_template('home2.html')
+
+    # Extract every 30th entry starting from the 2nd row
+    monthly_data = filtered_data.iloc[1::30]
+
+    if monthly_data.empty:
+        return render_template('home2.html')
+
+    # Plotting code
+    plt.figure(figsize=(10, 6))
+    plt.plot(monthly_data['DATE'], monthly_data['CLOSE'], marker='o', label='Closing Price')
+
+    plt.title(f'Stock Prices for {symbol} from {from_date_str} to {to_date_str} (Monthly)')
+    plt.xlabel('Date')
+    plt.ylabel('Price')
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+
+    plt.xlim(from_date, to_date)
+
+    img = BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
+
+    return send_file(img, mimetype='image/png')
+
+
+# Yearly plot route
+@app.route('/plot/yearly', methods=['POST'])
+def plot_yearly():
+    symbol = request.form.get('symbol')
+    from_date_str = request.form.get('fromDate')
+    to_date_str = request.form.get('toDate')
+
+    # Convert string dates to datetime objects
+    from_date = datetime.strptime(from_date_str, "%Y-%m-%d")
+    to_date = datetime.strptime(to_date_str, "%Y-%m-%d")
+
+    date_difference = to_date - from_date
+
+    # Calculate the number of years
+    years = ceil(date_difference.days / 365.25)
+
+    subprocess.run(['python', 'main.py', symbol, str(years)], check=True)
+
+    # Read the CSV file
+    df = pd.read_csv(f"{symbol}.csv", parse_dates=['DATE'])
+
+    # Filter data based on the user-specified date range
+    filtered_data = df[(df['DATE'] >= from_date) & (df['DATE'] <= to_date)]
+
+    if filtered_data.empty:
+        return render_template('home2.html')
+
+    # Extract every date of the format yyyy-01-01
+    yearly_data = filtered_data[filtered_data['DATE'].dt.month == 1 & (filtered_data['DATE'].dt.day == 1)]
+
+    if yearly_data.empty:
+        return render_template('home2.html')
+
+    # Plotting code
+    plt.figure(figsize=(10, 6))
+    plt.plot(yearly_data['DATE'], yearly_data['CLOSE'], marker='o', label='Closing Price')
+
+    plt.title(f'Stock Prices for {symbol} from {from_date_str} to {to_date_str} (Yearly)')
+    plt.xlabel('Date')
+    plt.ylabel('Price')
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+
+    plt.xlim(from_date, to_date)
 
     img = BytesIO()
     plt.savefig(img, format='png')
