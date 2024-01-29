@@ -203,11 +203,26 @@
 
   <h1>Nifty 50 Company List</h1>
 
-  <form action="/apply_filters" method="post">
+  <!-- <form action="/apply_filters" method="post">
     <label for="average_price">Apply Filters: By Average Price</label>
     <input type="checkbox" id="average_price" name="average_price">
     <button type="submit">Apply</button>
+  </form> -->
+  <form action="/apply_filters1" method="post">
+    <div>
+        <label for="average_price">Apply Filters: By Average Price (as on 25-01-2024)</label>
+        <input type="checkbox" id="average_price" name="average_price">
+        <button type="submit">Apply</button>
+    </div>
   </form>
+
+  <form action="/apply_filters2" method="post">
+    <div>
+        <label for="top10">Apply Filters: By top 10 companies (as on 25-01-2024)</label>
+        <input type="checkbox" id="top10" name="top10">
+        <button type="submit">Apply</button>
+    </div>
+</form>
 
   <ul class="content-list">
     {% for company in companies %}

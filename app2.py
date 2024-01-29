@@ -501,7 +501,6 @@ def multiple_plot():
 def get_filtered_companies(apply_filters=False):
     # current_date = datetime.now().date()
     # three_days_ago = current_date - timedelta(days=3)
-    # three_days_ago = '2024-01-25
     input_csv_file = bhavcopy_save(date(2024,1,25), "./")
     input2 = 'ind_nifty50list.csv'
 
@@ -522,17 +521,158 @@ def get_filtered_companies(apply_filters=False):
     allstocks_df = pd.read_csv('allstocks.csv')
     allstocks2_df = pd.read_csv('allstocks2.csv')
 
-    # Filter rows in allstocks.csv based on symbols present in allstocks2.csv
+    
     filtered_allstocks_df = allstocks_df[allstocks_df['SYMBOL'].isin(allstocks2_df['Symbol'])]
+
+    # if apply_filters:
+    #     if filter_type == 'average_price':
+    #         # Filter based on average price
+    #         average_close = filtered_allstocks_df['CLOSE'].mean()
+    #         filtered_companies = filtered_allstocks_df[filtered_allstocks_df['CLOSE'] > average_close]['SYMBOL'].tolist()
+    #         return filtered_companies
+        # elif filter_type == 'top10':
+        #     # Filter based on top 10 companies with the highest closing price
+        #     # filtered_allstocks_df['CLOSE'] = pd.to_numeric(filtered_allstocks_df['CLOSE'], errors='coerce')
+        #     filtered_companies = filtered_allstocks_df.nlargest(10, 'CLOSE')['SYMBOL'].tolist()
+        #     return filtered_companies
+    #     else:
+    #         # Default behavior if no filter type specified
+    #         filtered_companies = []
+    # else:
+    #     # Default behavior without applying filters
+    #     filtered_companies = allstocks2_df['Symbol'].tolist()
+    #     return filtered_companies
+    
 
     if apply_filters:
         average_close = filtered_allstocks_df['CLOSE'].mean()
-        # Filter companies based on average close price
+        
         filtered_companies = filtered_allstocks_df[filtered_allstocks_df['CLOSE'] > average_close]['SYMBOL'].tolist()
         return filtered_companies
     else:
         all_companies = allstocks2_df['Symbol'].tolist()
         return all_companies
+
+def get_filtered_companies2(apply_filters=False):
+    input_csv_file = bhavcopy_save(date(2024,1,25), "./")
+    input2 = 'ind_nifty50list.csv'
+
+    df = pd.read_csv(input_csv_file)
+    df2 = pd.read_csv(input2)
+    output_csv_file = 'allstocks.csv'
+    output2 = 'allstocks2.csv'
+
+    selected_columns = ['SYMBOL', 'SERIES', 'CLOSE']
+    selected_columns2 = ['Symbol', 'Company Name']
+    selected_data = df[selected_columns]
+    selected_data2 = df2[selected_columns2]
+
+    selected_data = selected_data[selected_data['SERIES'] == 'EQ']
+    selected_data.to_csv(output_csv_file, index=False)
+    selected_data2.to_csv(output2, index=False)
+
+    allstocks_df = pd.read_csv('allstocks.csv')
+    allstocks2_df = pd.read_csv('allstocks2.csv')
+
+    
+    filtered_allstocks_df = allstocks_df[allstocks_df['SYMBOL'].isin(allstocks2_df['Symbol'])]
+    filtered_allstocks_df.to_csv('stocks3.csv', index=False)
+    stocks3_df = pd.read_csv('stocks3.csv')
+    # Extract the top 10 companies with the highest closing prices
+    top10_companies_df = stocks3_df.nlargest(10, 'CLOSE')
+    # if apply_filters:
+    top10_companies = top10_companies_df['SYMBOL'].tolist()
+    return top10_companies
+
+    
+
+
+    # if apply_filters:
+    #     average_close = filtered_allstocks_df['CLOSE'].mean()
+        
+    #     filtered_companies = filtered_allstocks_df[filtered_allstocks_df['CLOSE'] > average_close]['SYMBOL'].tolist()
+    #     return filtered_companies
+    # else:
+    #     all_companies = allstocks2_df['Symbol'].tolist()
+    #     return all_companies
+
+
+# @app.route('/apply_filters', methods=['POST'])
+# def apply_filters():
+#     apply_average_price = 'average_price' in request.form
+#     apply_top10 = 'top10' in request.form
+
+#     filter_type = None
+#     if apply_average_price:
+#         filter_type = 'average_price'
+#     elif apply_top10:
+#         filter_type = 'top10'
+
+#     companies = get_filtered_companies(apply_filters=apply_average_price, filter_type=filter_type)
+
+#     return render_template('list.html', companies=companies)
+
+
+# @app.route('/apply_filters', methods=['POST'])
+# def apply_filters():
+#     apply_average_price = 'average_price' in request.form
+#     apply_top10 = 'top10' in request.form
+#     # filter_type=None
+#     if apply_average_price:
+#         companies = get_filtered_companies(apply_average_price)
+#         return render_template('list.html', companies=companies)
+#     elif apply_top10:
+#         companies = get_filtered_companies(apply_top10)
+#         return render_template('list.html', companies=companies)
+#     else:
+#         return render_template('list.html', companies=companies)
+    
+@app.route('/apply_filters1', methods=['POST'])
+def apply_filters1():
+    apply_filters = 'average_price' in request.form
+    companies = get_filtered_companies(apply_filters)
+    return render_template('list.html', companies=companies)
+
+@app.route('/apply_filters2', methods=['POST'])
+def apply_filters2():
+    apply_filters = 'top_10' in request.form
+    companies = get_filtered_companies2(apply_filters)
+    return render_template('list.html', companies=companies)
+# def get_filtered_companies(apply_filters=False):
+#     # current_date = datetime.now().date()
+#     # three_days_ago = current_date - timedelta(days=3)
+#     # three_days_ago = '2024-01-25
+#     input_csv_file = bhavcopy_save(date(2024,1,25), "./")
+#     input2 = 'ind_nifty50list.csv'
+
+#     df = pd.read_csv(input_csv_file)
+#     df2 = pd.read_csv(input2)
+#     output_csv_file = 'allstocks.csv'
+#     output2 = 'allstocks2.csv'
+
+#     selected_columns = ['SYMBOL', 'SERIES', 'CLOSE']
+#     selected_columns2 = ['Symbol', 'Company Name']
+#     selected_data = df[selected_columns]
+#     selected_data2 = df2[selected_columns2]
+
+#     selected_data = selected_data[selected_data['SERIES'] == 'EQ']
+#     selected_data.to_csv(output_csv_file, index=False)
+#     selected_data2.to_csv(output2, index=False)
+
+#     allstocks_df = pd.read_csv('allstocks.csv')
+#     allstocks2_df = pd.read_csv('allstocks2.csv')
+
+#     # Filter rows in allstocks.csv based on symbols present in allstocks2.csv
+#     filtered_allstocks_df = allstocks_df[allstocks_df['SYMBOL'].isin(allstocks2_df['Symbol'])]
+
+#     if apply_filters:
+#         average_close = filtered_allstocks_df['CLOSE'].mean()
+#         # Filter companies based on average close price
+#         filtered_companies = filtered_allstocks_df[filtered_allstocks_df['CLOSE'] > average_close]['SYMBOL'].tolist()
+#         return filtered_companies
+#     else:
+#         all_companies = allstocks2_df['Symbol'].tolist()
+#         return all_companies
 
 @app.route('/list_stocks')
 def list_stocks():
@@ -544,11 +684,11 @@ def list_stocks():
     # companies = get_filtered_companies()
     # return render_template('list.html', companies=companies)
 
-@app.route('/apply_filters', methods=['POST'])
-def apply_filters():
-    apply_filters = 'average_price' in request.form
-    companies = get_filtered_companies(apply_filters)
-    return render_template('list.html', companies=companies)
+# @app.route('/apply_filters', methods=['POST'])
+# def apply_filters():
+#     apply_filters = 'average_price' in request.form
+#     companies = get_filtered_companies(apply_filters)
+#     return render_template('list.html', companies=companies)
     
 @app.route('/logout')
 def logout():
