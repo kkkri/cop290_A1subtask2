@@ -1,5 +1,5 @@
 # app.py
-from flask import Flask, render_template, request, flash, session, redirect, url_for, send_file
+from flask import Flask, render_template, request, flash, session, redirect, url_for, send_file, send_from_directory
 import subprocess
 import pandas as pd
 from datetime import date, datetime, timedelta
@@ -383,6 +383,7 @@ def about_us():
     
     else:
         return redirect(url_for('index'))
+    
 @app.route('/single_graph')
 def single_graph():
     if 'user_id' in session:
@@ -584,6 +585,61 @@ def get_filtered_companies2(apply_filters=False):
     top10_companies = top10_companies_df['SYMBOL'].tolist()
     return top10_companies
 
+def filter_companies_by_range(csv_file_path, from_value, to_value):
+    # Logic to read CSV file and filter companies based on closing price range
+    # Replace 'Symbol' and 'Close_Price' with actual column names in your CSV file
+    # that represent the company symbol and closing price.
+    # Also, ensure to convert 'from_value' and 'to_value' to integers before comparison.
+
+    filtered_companies = []
+    with open(csv_file_path, 'r') as file:
+        # Assuming CSV file has headers, if not adjust the logic accordingly
+        headers = next(file).strip().split(',')
+        symbol_index = headers.index('SYMBOL')
+        close_price_index = headers.index('CLOSE')
+
+        for line in file:
+            values = line.strip().split(',')
+            symbol = values[symbol_index]
+            close_price = float(values[close_price_index])  # Assuming close price is a floating-point number
+
+            if from_value <= close_price <= to_value:
+                filtered_companies.append(symbol)
+
+    return filtered_companies
+
+def range1(apply_filters=None):
+    input_csv_file = bhavcopy_save(date(2024,1,25), "./")
+    input2 = 'ind_nifty50list.csv'
+
+    df = pd.read_csv(input_csv_file)
+    df2 = pd.read_csv(input2)
+    output_csv_file = 'allstocks.csv'
+    output2 = 'allstocks2.csv'
+
+    selected_columns = ['SYMBOL', 'SERIES', 'CLOSE']
+    selected_columns2 = ['Symbol', 'Company Name']
+    selected_data = df[selected_columns]
+    selected_data2 = df2[selected_columns2]
+
+    selected_data = selected_data[selected_data['SERIES'] == 'EQ']
+    selected_data.to_csv(output_csv_file, index=False)
+    selected_data2.to_csv(output2, index=False)
+
+    allstocks_df = pd.read_csv('allstocks.csv')
+    allstocks2_df = pd.read_csv('allstocks2.csv')
+
+    
+    filtered_allstocks_df = allstocks_df[allstocks_df['SYMBOL'].isin(allstocks2_df['Symbol'])]
+    filtered_allstocks_df.to_csv('stocks3.csv', index=False)
+
+    from_value = int(request.form.get('from'))
+    to_value = int(request.form.get('to'))
+    # stocks3_df = pd.read_csv('stocks3.csv')
+    filtered_companies = filter_companies_by_range('stocks3.csv', from_value, to_value)
+    return filtered_companies
+    # return render_template('list.html', companies=filtered_companies
+
     
 
 
@@ -637,6 +693,12 @@ def apply_filters1():
 def apply_filters2():
     apply_filters = 'top_10' in request.form
     companies = get_filtered_companies2(apply_filters)
+    return render_template('list.html', companies=companies)
+
+@app.route('/apply_filters3', methods=['POST'])
+def apply_filters3():
+    apply_filters = 'range' in request.form
+    companies = range1(apply_filters)
     return render_template('list.html', companies=companies)
 # def get_filtered_companies(apply_filters=False):
 #     # current_date = datetime.now().date()
@@ -695,6 +757,17 @@ def logout():
     session.pop('user_id', None)
     session.pop('username', None)
     return redirect(url_for('index'))
+
+@app.route('/open_pdf')
+def open_pdf():
+    # Replace 'path/to/your/file.pdf' with the actual path to your PDF file.
+    pdf_path = 'samplepdf.pdf'
+
+    # Send the PDF file as an attachment with the option to open in a new tab
+    # return send_file(pdf_path, as_attachment=True, download_name='file.pdf')
+    # return send_file(pdf_path, mimetype='application/pdf')
+    return send_from_directory('.', pdf_path, as_attachment=False)
+    # return render_template('open_pdf.html', pdf_path=pdf_path)
 
 if __name__ == '__main__':
     app.run(debug=True)
