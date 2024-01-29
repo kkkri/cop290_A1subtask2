@@ -239,12 +239,40 @@
             <form id="plotForm" method="post">
               <div class="form-group">
                 <label for="symbol">Stock Symbol:</label>
-                <input type="text" class="form-control" name="symbol" required />
+                <input
+                  type="text"
+                  class="form-control"
+                  name="symbol"
+                  required
+                />
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label for="years">Number of Years:</label>
-                <input type="number" class="form-control" name="years" required />
-              </div>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="years"
+                  required
+                />
+              </div> -->
+              <div class="form-group">
+                  <label for="fromDate">From:</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    name="fromDate"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="toDate">To:</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    name="toDate"
+                    required
+                  />
+                </div>
               <div class="form-group">
                 <label for="interval">Time Interval:</label>
                 <select id="interval" class="form-control">
@@ -252,7 +280,11 @@
                   <option value="weekly">Weekly</option>
                 </select>
               </div>
-              <button type="button" class="btn btn-primary btn-block" onclick="submitForm()">
+              <button
+                type="button"
+                class="btn btn-primary btn-block"
+                onclick="submitForm()"
+              >
                 Plot Graph
               </button>
             </form>
@@ -265,72 +297,36 @@
     </div>
   </div>
 
-  <script>
+  <!-- Updated JavaScript function in home2.html -->
+<!-- <script>
+function submitForm() {
+  var interval = document.getElementById("interval").value;
+  var form = document.getElementById("plotForm");
+  form.action = `/plot?interval=${interval}`; // Dynamically set the interval in the action
+  form.submit();
+}
+</script> -->
+
+  <!-- <script>
     function submitForm() {
       var interval = document.getElementById("interval").value;
       var form = document.getElementById("plotForm");
       form.action = "/plot?interval=" + interval;
       form.submit();
     }
-  </script>
+  </script> -->
 
-  <!-- <h2>Stock Analysis</h2>
-
-  <form action="/plot" method="post">
-    <label for="symbol">Stock Symbol:</label>
-    <input type="text" name="symbol" required>
-
-    <script>
-      function applyFilter() {
-        var filterValue = document.getElementById("filter").value;
-        var form = document.querySelector('form');
-        form.action = '/plot?filter=' + filterValue;
-        form.submit();
-      }
-    </script> -->
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-      crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-      crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
-      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-      crossorigin="anonymous"></script>
-    <label for="years">Number of Years:</label>
-    <input type="number" name="years" required>
-    <div class="filter-dropdown">
-      <label for="filter">Filter:</label>
-      <select id="filter" name="filter">
-        <option value="monthly">Monthly</option>
-        <option value="quarterly">Quarterly</option>
-        <option value="yearly">Yearly</option>
-      </select>
-      <button type="button" onclick="applyFilter()">Apply Filter</button>
-    </div>
-    <button type="submit">Plot</button>
-    
-  </form>
-  <form action="/single_graph"><button type="submit">Remove graph</button></form>
-  
-
-  {% if plot_url %}
-  <img src="data:image/png;base64,{{ plot_url }}" alt="Stock Plot">
-  {% endif %}
 
   <script>
-    function applyFilter() {
-      var filterValue = document.getElementById("filter").value;
-      var form = document.querySelector('form');
-      form.action = '/plot?filter=' + filterValue;
+    function submitForm() {
+      var interval = document.getElementById("interval").value;
+      var form = document.getElementById("plotForm");
+  
+      // Dynamically set the correct interval-based action
+      form.action = `/plot/${interval}`;
+      
       form.submit();
     }
-  </script> -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </script>
 </body>
-
 </html>

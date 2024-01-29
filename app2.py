@@ -9,6 +9,7 @@ from io import BytesIO
 import base64
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from math import ceil
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Replace with your actual secret key
@@ -78,38 +79,119 @@ def dashboard():
 @app.route('/plot', methods=['POST'])
 def plot():
     symbol = request.form.get('symbol')
-    years = int(request.form.get('years'))
+    from_date_str = request.form.get('fromDate')
+    to_date_str = request.form.get('toDate')
+    # interval = request.form.get('interval')
 
-    # Run main.py to generate CSV file
+    # Convert string dates to datetime objects
+    from_date = datetime.strptime(from_date_str, "%Y-%m-%d")
+    to_date = datetime.strptime(to_date_str, "%Y-%m-%d")
+    date_difference = to_date - from_date
+
+    # Calculate the number of years
+    years = ceil(date_difference.days / 365.25)
+
     subprocess.run(['python', 'main.py', symbol, str(years)], check=True)
 
     df = pd.read_csv(f"{symbol}.csv", parse_dates=['DATE'])
 
-    # Filter data based on the number of years
-    filtered_data = df[df['DATE'] >= pd.to_datetime('today') - pd.DateOffset(years=years)]
+    # Filter data based on the user-specified date range
+    filtered_data = df[(df['DATE'] >= from_date) & (df['DATE'] <= to_date)]
 
     if filtered_data.empty:
         return render_template('home2.html')
 
-    # Plot the data using Matplotlib
+    # Plotting code remains the same
     plt.figure(figsize=(10, 6))
     plt.plot(filtered_data['DATE'], filtered_data['CLOSE'], marker='o', label='Closing Price')
-    # plt.plot(filtered_data['DATE'], filtered_data['OPEN'], marker='o', label='Closing Price', color ='red',  linestyle='--',)
-    # plt.axhline(y=filtered_data['OPEN'].iloc[0], color='red', linestyle='--', label='Opening Price')
-    
-    plt.title(f'Stock Prices for {symbol} over the last {years} years')
+
+    plt.title(f'Stock Prices for {symbol} from {from_date_str} to {to_date_str}')
     plt.xlabel('Date')
     plt.ylabel('Price')
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
 
-    # Save the plot to a BytesIO object
     img = BytesIO()
     plt.savefig(img, format='png')
     img.seek(0)
 
-    # Send the image file directly to the client
+    return send_file(img, mimetype='image/png')
+
+
+# Daily plot route
+@app.route('/plot/daily', methods=['POST'])
+def plot_daily():
+    symbol = request.form.get('symbol')
+    from_date_str = request.form.get('fromDate')
+    to_date_str = request.form.get('toDate')
+
+    # Convert string dates to datetime objects
+    from_date = datetime.strptime(from_date_str, "%Y-%m-%d")
+    to_date = datetime.strptime(to_date_str, "%Y-%m-%d")
+
+    # Filter data based on the user-specified date range
+    df = pd.read_csv(f"{symbol}.csv", parse_dates=['DATE'])
+    filtered_data = df[(df['DATE'] >= from_date) & (df['DATE'] <= to_date)]
+
+    if filtered_data.empty:
+        return render_template('home2.html')
+
+    # Plotting code remains the same
+    plt.figure(figsize=(10, 6))
+    plt.plot(filtered_data['DATE'], filtered_data['CLOSE'], marker='o', label='Closing Price')
+
+    plt.title(f'Stock Prices for {symbol} from {from_date_str} to {to_date_str} (Daily)')
+    plt.xlabel('Date')
+    plt.ylabel('Price')
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+
+    img = BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
+
+    return send_file(img, mimetype='image/png')
+
+# Weekly plot route
+@app.route('/plot/weekly', methods=['POST'])
+def plot_weekly():
+    symbol = request.form.get('symbol')
+    from_date_str = request.form.get('fromDate')
+    to_date_str = request.form.get('toDate')
+
+    # Convert string dates to datetime objects
+    from_date = datetime.strptime(from_date_str, "%Y-%m-%d")
+    to_date = datetime.strptime(to_date_str, "%Y-%m-%d")
+
+    # Filter data based on the user-specified date range and resample to weekly frequency
+    df = pd.read_csv(f"{symbol}.csv", parse_dates=['DATE'])
+    filtered_data = df[(df['DATE'] >= from_date) & (df['DATE'] <= to_date)]
+    if filtered_data.empty:
+        return render_template('home2.html')
+
+    # Resample to weekly frequency, considering Monday as the start of the week
+    weekly_data = filtered_data.resample('W-Mon').last()
+
+    if weekly_data.empty:
+        return render_template('home2.html')
+
+    # Plotting code remains the same
+    plt.figure(figsize=(10, 6))
+    plt.plot(weekly_data['DATE'], weekly_data['CLOSE'], marker='o', label='Closing Price')
+
+    plt.title(f'Stock Prices for {symbol} from {from_date_str} to {to_date_str} (Weekly)')
+    plt.xlabel('Date')
+    plt.ylabel('Price')
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+
+    img = BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
+
     return send_file(img, mimetype='image/png')
 
 # @app.route('/plot', methods=['POST', 'GET'])
