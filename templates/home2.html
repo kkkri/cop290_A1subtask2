@@ -28,190 +28,195 @@
 <!-- templates/home.html -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- <link
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
       crossorigin="anonymous"
     /> -->
-    <title>Single graph</title>
-    <style>
-      * {
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-      }
-  
-      body {
-        background-image: url(static/paisa.jpg);
-        background-size: cover;
-        background-position: center;
-        font-family: sans-serif;
-      }
-  
-      .menu-bar {
-        background: rgb(0, 100, 0);
-        text-align: center;
-      }
-  
-      .menu-bar ul {
-        display: inline-flex;
-        list-style: none;
-        color: white;
-      }
-  
-      .menu-bar ul li {
-        width: 120px;
-        /* height:50px; */
-        margin: 15px;
-        padding: 15px;
-        /* position:relative; */
-      }
-  
-      .menu-bar ul li a {
-        text-decoration: none;
-        color: white;
-        /* display:block;
-    padding: 10px; */
-      }
-  
-      .active,
-      .menu-bar ul li :hover {
-        background: #2bab0d;
-        border-radius: 3px;
-      }
-  
-      .menu-bar ul li :hover {
-        background: #2bab0d;
-        border-radius: 6px;
-      }
-  
-      .sub-menu {
-        display: none;
-      }
-  
-      .menu-bar ul li:hover .sub-menu {
-        display: block;
-        position: absolute;
-        background-color: rgb(0, 100, 0);
-        margin-top: 15px;
-        margin-left: -15px;
-      }
-  
-      .menu-bar ul li:hover .sub-menu ul {
-        display: block;
-        margin: 10px;
-      }
-  
-      .menu-bar ul li:hover .sub-menu ul li {
-        width: 150px;
-        padding: 10px;
-        border-bottom: 1px dotted #fff;
-        background: transparent;
-        border-radius: 0;
-        text-align: left;
-      }
-  
-      .menu-bar ul li:hover .sub-menu ul li:last-child {
-        border-bottom: none;
-      }
-  
-      .container {
-        margin: 50px auto;
-        /* Center the container on the page */
-        max-width: 500px;
-        /* Set a maximum width for the container */
-      }
-  
-      .card {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        background-color: #f8f9fa;
-        
-      }
-  
-      .card-body {
-        padding: 30px;
-      }
-  
-      h1 {
-        font-size: 2.5rem;
-        margin-bottom: 30px;
-        text-align: center;
-      }
-  
-      .form-group {
-        margin-bottom: 20px;
-        margin-right: 20px;
-      }
-  
-      label {
-        font-weight: bold;
-      }
-  
-      .form-control {
-        display: block;
-        width: 100%;
-        padding: 0.375rem 0.75rem;
-        font-size: 1rem;
-        line-height: 1.5;
-        color: #495057;
-        background-color: #fff;
-        background-clip: padding-box;
-        border: 1px solid #ced4da;
-        border-radius: 0.25rem;
-        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-      }
-  
-      .btn {
-        display: inline-block;
-        font-weight: 400;
-        color: #fff;
-        text-align: center;
-        vertical-align: middle;
-        user-select: none;
-        background-color: #007bff;
-        border: 1px solid #007bff;
-        padding: 0.375rem 0.75rem;
-        font-size: 1rem;
-        line-height: 1.5;
-        border-radius: 0.25rem;
-        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-          border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        cursor: pointer;
-      }
-  
-      .btn:hover {
-        color: #fff;
-        background-color: #0056b3;
-        border-color: #0056b3;
-      }
-    </style>
-  </head>
+  <title>Single graph</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
 
-  <body class="bg-light">
-    <div class="menu-bar">
-      <ul>
-          <li class="active"><a href="{{ url_for('dashboard') }}">TradeSim</a></li>
-          <li><a href="{{ url_for('dashboard') }}">Home</a></li>
-          <li><a href="#">About us</a></li>
-          <li><a href="#">Options</a>
-              <div class="sub-menu">
-                  <ul>
-                      <li><a href="{{ url_for('single_graph') }}">Plot graph</a></li>
-                      <li><a href="{{ url_for('multiple_graph') }}">Plot multiple graphs</a></li>
-                      <li><a href="{{ url_for('list_stocks') }}">List of stocks</a></li>
-                  </ul>
-              </div>
-          </li>
-          <li><a href="#">Documentation</a></li>
-          <li class="active"><a href="{{ url_for('logout') }}">Logout</a></li>
-      </ul>
+    body {
+      background-image: url(static/paisa.jpg);
+      background-size: cover;
+      background-position: center;
+      font-family: sans-serif;
+    }
+
+    .menu-bar {
+      background: rgb(0, 100, 97);
+      text-align: center;
+    }
+
+    .menu-bar ul {
+      display: inline-flex;
+      list-style: none;
+      color: white;
+    }
+
+    .menu-bar ul li {
+      width: 120px;
+      /* height:50px; */
+      margin: 15px;
+      padding: 15px;
+      /* position:relative; */
+    }
+
+    .menu-bar ul li a {
+      text-decoration: none;
+      color: white;
+      /* display:block;
+    padding: 10px; */
+    }
+
+    .active,
+    .menu-bar ul li :hover {
+      background: rgba(100, 65, 0, 0.938);
+      border-radius: 3px;
+    }
+
+    .menu-bar ul li :hover {
+      /* background: rgb(0, 100, 97); */
+      background: rgba(100, 65, 0, 0.938);
+      /* background: #2bab0d; */
+      border-radius: 6px;
+    }
+
+    .sub-menu {
+      display: none;
+    }
+
+    .menu-bar ul li:hover .sub-menu {
+      display: block;
+      position: absolute;
+      /* background-color: rgb(0, 100, 0); */
+      background: rgb(0, 100, 97);
+      margin-top: 15px;
+      margin-left: -15px;
+    }
+
+    .menu-bar ul li:hover .sub-menu ul {
+      display: block;
+      margin: 10px;
+    }
+
+    .menu-bar ul li:hover .sub-menu ul li {
+      width: 150px;
+      padding: 10px;
+      border-bottom: 1px dotted #fff;
+      background: transparent;
+      border-radius: 0;
+      text-align: left;
+    }
+
+    .menu-bar ul li:hover .sub-menu ul li:last-child {
+      border-bottom: none;
+    }
+
+    .container {
+      margin: 50px auto;
+      /* Center the container on the page */
+      max-width: 500px;
+      /* Set a maximum width for the container */
+    }
+
+    .card {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      /* background-color: #f8f9fa; */
+      background-color: rgba(255, 255, 255, 0.8);
+
+    }
+
+    .card-body {
+      padding: 30px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      margin-right: 20px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    .form-control {
+      display: block;
+      width: 100%;
+      padding: 0.375rem 0.75rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border-radius: 0.25rem;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .btn {
+      display: inline-block;
+      font-weight: 400;
+      color: #fff;
+      text-align: center;
+      vertical-align: middle;
+      user-select: none;
+      background-color: #007bff;
+      border: 1px solid #007bff;
+      padding: 0.375rem 0.75rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      border-radius: 0.25rem;
+      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      color: #fff;
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+  </style>
+</head>
+
+<body class="bg-light">
+  <div class="menu-bar">
+    <ul>
+      <li class="active"><a href="{{ url_for('dashboard') }}">TradeSim</a></li>
+      <li><a href="{{ url_for('dashboard') }}">Home</a></li>
+      <li><a href="{{url_for ('about_us')}}">About us</a></li>
+      <li><a href="#">Options</a>
+        <div class="sub-menu">
+          <ul>
+            <li><a href="{{ url_for('single_graph') }}">Plot graph</a></li>
+            <li><a href="{{ url_for('multiple_graph') }}">Plot multiple graphs</a></li>
+            <li><a href="{{ url_for('list_stocks') }}">List of stocks</a></li>
+          </ul>
+        </div>
+      </li>
+      <li><a href="#">Documentation</a></li>
+      <li class="active"><a href="{{ url_for('logout') }}">Logout</a></li>
+    </ul>
   </div>
-    <!-- {% if show_alert %} -->
-    <!-- <div class="alert alert-success alert-dismissible fade show" role="alert">
+  <!-- {% if show_alert %} -->
+  <!-- <div class="alert alert-success alert-dismissible fade show" role="alert">
       <strong>Welcome!</strong>
       You have logged in successfully.
       <button
@@ -223,67 +228,53 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div> -->
-    <!-- {% endif %} -->
+  <!-- {% endif %} -->
 
-    <div class="container mt-5">
-      <div class="row justify-content-center">
-        <div class="col-md-6">
-          <div class="card">
-            <div class="card-body">
-              <h1 class="text-center mb-4">Stock Analysis</h1>
-              <form id="plotForm" method="post">
-                <div class="form-group">
-                  <label for="symbol">Stock Symbol:</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="symbol"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="years">Number of Years:</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    name="years"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="interval">Time Interval:</label>
-                  <select id="interval" class="form-control">
-                    <option value="daily">Daily</option>
-                    <option value="weekly">Weekly</option>
-                  </select>
-                </div>
-                <button
-                  type="button"
-                  class="btn btn-primary btn-block"
-                  onclick="submitForm()"
-                >
-                  Plot Graph
-                </button>
-              </form>
-              <div class="mt-4">
-                <canvas id="stockChart"></canvas>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h1 class="text-center mb-4">Stock Analysis</h1>
+            <form id="plotForm" method="post">
+              <div class="form-group">
+                <label for="symbol">Stock Symbol:</label>
+                <input type="text" class="form-control" name="symbol" required />
               </div>
+              <div class="form-group">
+                <label for="years">Number of Years:</label>
+                <input type="number" class="form-control" name="years" required />
+              </div>
+              <div class="form-group">
+                <label for="interval">Time Interval:</label>
+                <select id="interval" class="form-control">
+                  <option value="daily">Daily</option>
+                  <option value="weekly">Weekly</option>
+                </select>
+              </div>
+              <button type="button" class="btn btn-primary btn-block" onclick="submitForm()">
+                Plot Graph
+              </button>
+            </form>
+            <div class="mt-4">
+              <canvas id="stockChart"></canvas>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <script>
-      function submitForm() {
-        var interval = document.getElementById("interval").value;
-        var form = document.getElementById("plotForm");
-        form.action = "/plot?interval=" + interval;
-        form.submit();
-      }
-    </script>
+  <script>
+    function submitForm() {
+      var interval = document.getElementById("interval").value;
+      var form = document.getElementById("plotForm");
+      form.action = "/plot?interval=" + interval;
+      form.submit();
+    }
+  </script>
 
-    <!-- <h2>Stock Analysis</h2>
+  <!-- <h2>Stock Analysis</h2>
 
   <form action="/plot" method="post">
     <label for="symbol">Stock Symbol:</label>
@@ -297,9 +288,9 @@
         form.submit();
       }
     </script> -->
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
       integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
       crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
@@ -337,8 +328,9 @@
       form.submit();
     }
   </script> -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  </body>
+</body>
+
 </html>

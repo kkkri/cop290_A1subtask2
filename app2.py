@@ -73,6 +73,7 @@ def dashboard():
     
     else:
         return redirect(url_for('index'))
+
     
 @app.route('/plot', methods=['POST'])
 def plot():
@@ -166,6 +167,13 @@ def plot():
 #         return render_template('home2.html')
     
 
+@app.route('/about_us')
+def about_us():
+    if 'user_id' in session:
+        return render_template('about.html', username=session['username'],show_alert=True)
+    
+    else:
+        return redirect(url_for('index'))
 @app.route('/single_graph')
 def single_graph():
     if 'user_id' in session:

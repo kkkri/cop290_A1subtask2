@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Trading Simulator and Analyzer</title>
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+        } */
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-image: url(static/office.jpg);
+            background-size: cover;
+            background-position: center;
+            font-family: sans-serif;
+        }
+
+        .menu-bar {
+            background: rgb(0, 100, 97);
+            text-align: center;
+        }
+
+        .menu-bar ul {
+            display: inline-flex;
+            list-style: none;
+            color: white;
+        }
+
+        .menu-bar ul li {
+            width: 120px;
+            /* height:50px; */
+            margin: 15px;
+            padding: 15px;
+            /* position:relative; */
+        }
+
+        .menu-bar ul li a {
+            text-decoration: none;
+            color: white;
+            /* display:block;
+    padding: 10px; */
+        }
+
+        .active,
+        .menu-bar ul li :hover {
+            background: rgba(100, 65, 0, 0.938);
+            border-radius: 3px;
+        }
+
+        .menu-bar ul li :hover {
+            /* background: rgb(0, 100, 97); */
+            background: rgba(100, 65, 0, 0.938);
+            /* background: #2bab0d; */
+            border-radius: 6px;
+        }
+
+        .sub-menu {
+            display: none;
+        }
+
+        .menu-bar ul li:hover .sub-menu {
+            display: block;
+            position: absolute;
+            /* background-color: rgb(0, 100, 0); */
+            background: rgb(0, 100, 97);
+            margin-top: 15px;
+            margin-left: -15px;
+        }
+
+        .menu-bar ul li:hover .sub-menu ul {
+            display: block;
+            margin: 10px;
+        }
+
+        .menu-bar ul li:hover .sub-menu ul li {
+            width: 150px;
+            padding: 10px;
+            border-bottom: 1px dotted #fff;
+            background: transparent;
+            border-radius: 0;
+            text-align: left;
+        }
+
+        .menu-bar ul li:hover .sub-menu ul li:last-child {
+            border-bottom: none;
+        }
+
+        /* header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        } */
+
+        section {
+            max-width: 700px;
+            margin-top: 20px;
+            /* margin: 20px auto; */
+            /* background-image: url(office.jpg); */
+            /* margin-left: 50px; */
+            padding: 20px;
+            /* background-color: rgb(255, 255, 255); */
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333333;
+            margin-top: 20px;
+        }
+
+        p {
+            line-height: 1.8;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="menu-bar">
+        <ul>
+            <li class="active"><a href="{{ url_for('dashboard') }}">TradeSim</a></li>
+            <li><a href="{{ url_for('dashboard') }}">Home</a></li>
+            <li><a href="{{url_for ('about_us')}}">About us</a></li>
+            <li><a href="#">Options</a>
+                <div class="sub-menu">
+                    <ul>
+                        <li><a href="{{ url_for('single_graph') }}">Plot graph</a></li>
+                        <li><a href="{{ url_for('multiple_graph') }}">Plot multiple graphs</a></li>
+                        <li><a href="{{ url_for('list_stocks') }}">List of stocks</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="#">Documentation</a></li>
+            <li class="active"><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </div>
+    <!-- <header>
+        <h1>About Us</h1>
+    </header> -->
+
+    <section>
+        <p>Welcome to Trading Simulator and Analyzer - your go-to platform for exploring and analyzing the stock market!
+        </p>
+
+        <h2>Our Mission</h2>
+        <p>At Trading Simulator and Analyzer, our mission is to empower users with tools and insights to make informed
+            decisions in the complex world of stock trading. We believe in providing a user-friendly and efficient
+            platform that caters to both beginners and experienced traders.</p>
+
+        <h2>Meet the Team</h2>
+        <p>Our team is passionate about financial technology and creating a seamless user experience. We bring together
+            diverse skills in software development, data analysis, and financial markets. As a collaborative team, we
+            strive to continuously enhance the features and functionality of our platform.</p>
+
+        <h2>Contact Us</h2>
+        <p>If you have any questions, feedback, or suggestions, feel free to reach out to us. We value your input and
+            are dedicated to improving your experience on our platform.</p>
+
+        <p>Email: sonam17karpa@gmail.com</p>
+        <p>Phone: +1 (555) 123-4567</p>
+        <p>Email: karissa123@gmail.com</p>
+        <p>Phone: +1 (555) 123-6789</p>
+    </section>
+
+</body>
+
+</html>
