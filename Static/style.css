@@ -1,5 +1,5 @@
 /* style.css */
-body {
+/* body {
     font-family: 'Arial', sans-serif;
     background-color: #f2f2f2;
     display: flex;
@@ -21,27 +21,6 @@ body {
     text-align: center;
     margin-bottom: 20px;
 }
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-input[type="text"], input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-button {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    background-color: #007bff;
-
-}
-    /* Add this to your existing style.css */
 
 .welcome-container {
     text-align: center;
@@ -68,7 +47,7 @@ button {
 
 .logout-button:hover {
     background-color: #c82333;
-}
+} */
 
 /* Add this to your style.css */
 body {
@@ -85,9 +64,35 @@ body {
 
 .form-container {
     background-color: rgba(255, 255, 255, 0.8); /* Add a semi-transparent background for better readability */
-    padding: 20px;
+    padding: 30px;
     border-radius: 10px;
     text-align: center;
+    width: 250px; /* Set a specific width */
+    max-width: 80%; /* Use maximum width for smaller screens */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    
+}
+.form-container h2 {
+    margin-bottom: 20px;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #007bff;
+
 }
 
 

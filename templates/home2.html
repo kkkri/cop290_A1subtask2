@@ -134,11 +134,15 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       /* background-color: #f8f9fa; */
       background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      text-align: left;
+      /* changed here */
 
     }
 
     .card-body {
       padding: 30px;
+      
     }
 
     h1 {
@@ -171,7 +175,10 @@
     }
 
     .btn {
+      width: 100%;
+      /* position: center; */
       display: inline-block;
+      margin-top: 10px;
       font-weight: 400;
       color: #fff;
       text-align: center;
@@ -239,12 +246,7 @@
             <form id="plotForm" method="post">
               <div class="form-group">
                 <label for="symbol">Stock Symbol:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="symbol"
-                  required
-                />
+                <input type="text" class="form-control" name="symbol" required />
               </div>
               <!-- <div class="form-group">
                 <label for="years">Number of Years:</label>
@@ -256,23 +258,13 @@
                 />
               </div> -->
               <div class="form-group">
-                  <label for="fromDate">From:</label>
-                  <input
-                    type="date"
-                    class="form-control"
-                    name="fromDate"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="toDate">To:</label>
-                  <input
-                    type="date"
-                    class="form-control"
-                    name="toDate"
-                    required
-                  />
-                </div>
+                <label for="fromDate">From:</label>
+                <input type="date" class="form-control" name="fromDate" required />
+              </div>
+              <div class="form-group">
+                <label for="toDate">To:</label>
+                <input type="date" class="form-control" name="toDate" required />
+              </div>
               <div class="form-group">
                 <label for="interval">Time Interval:</label>
                 <select id="interval" class="form-control">
@@ -282,17 +274,13 @@
                   <option value="yearly">Yearly</option>
                 </select>
               </div>
-              <button
-                type="button"
-                class="btn btn-primary btn-block"
-                onclick="submitForm()"
-              >
+              <button type="button" class="btn btn-primary btn-block" onclick="submitForm()">
                 Plot Graph
               </button>
             </form>
-            <div class="mt-4">
+            <!-- <div class="mt-4">
               <canvas id="stockChart"></canvas>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -300,7 +288,7 @@
   </div>
 
   <!-- Updated JavaScript function in home2.html -->
-<!-- <script>
+  <!-- <script>
 function submitForm() {
   var interval = document.getElementById("interval").value;
   var form = document.getElementById("plotForm");
@@ -323,12 +311,13 @@ function submitForm() {
     function submitForm() {
       var interval = document.getElementById("interval").value;
       var form = document.getElementById("plotForm");
-  
+
       // Dynamically set the correct interval-based action
       form.action = `/plot/${interval}`;
-      
+
       form.submit();
     }
   </script>
 </body>
+
 </html>
