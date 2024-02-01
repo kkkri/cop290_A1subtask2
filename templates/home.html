@@ -6,7 +6,6 @@
     <title>
         TraseSim
     </title>
-    <!-- <link rel="stylesheet" href="bar.css"> -->
     <script>function closeAlert() {
             document.getElementById('customAlert').style.display = 'none';
         }</script>
@@ -37,17 +36,14 @@
 
         .menu-bar ul li {
             width: 120px;
-            /* height:50px; */
             margin: 15px;
             padding: 15px;
-            /* position:relative; */
+            
         }
 
         .menu-bar ul li a {
             text-decoration: none;
             color: white;
-            /* display:block;
-    padding: 10px; */
         }
 
         .active,
@@ -57,9 +53,7 @@
         }
 
         .menu-bar ul li :hover {
-            /* background: rgb(0, 100, 97); */
             background: rgba(100, 65, 0, 0.938);
-            /* background: #2bab0d; */
             border-radius: 6px;
         }
 
@@ -69,8 +63,7 @@
 
         .menu-bar ul li:hover .sub-menu {
             display: block;
-            position: absolute;
-            /* background-color: rgb(0, 100, 0); */
+            position: absolute;            
             background: rgb(0, 100, 97);
             margin-top: 15px;
             margin-left: -15px;
@@ -105,7 +98,7 @@
             position: relative;
         }
 
-        /* Style for the close button */
+        
         .close-btn {
             cursor: pointer;
             color: red;
@@ -116,7 +109,7 @@
             font-size: 18px;
         }
 
-        /* Hover effect for the close button */
+        
         .close-btn:hover {
             background-color: black;
             text-decoration: none;
@@ -127,12 +120,11 @@
             justify-content: space-around;
             align-items: center;
             flex-wrap: wrap;
-            /* position: relative; */
+            
         }
 
         .card {
-            width: 350px;
-            /* have to adjust the positions of the cards*/
+            width: 350px;            
             margin: 15px;
             background-color: #fff;
             border-radius: 10px;
@@ -172,8 +164,7 @@
             text-align: center;
             text-decoration: none;
             color: #fff;
-            background-color: #95db34;
-            /* background: linear-gradient(to right, #95db34, #4CAF50); */
+            background-color: #95db34;            
             border-radius: 5px;
             transition: background-color 0.3s ease-in-out;
         }
@@ -203,7 +194,7 @@
             <li class="active"><a href="{{ url_for('logout') }}">Logout</a></li>
         </ul>
     </div>
-    <!-- Alert -->
+    
     <div class="custom-alert" id="customAlert">
         <strong>Welcome!</strong>
         You have logged in successfully.

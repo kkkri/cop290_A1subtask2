@@ -25,22 +25,14 @@ def download_stock_data(symbol, years):
     return df
 
 def write_to_csv(data, filename):
-    # selected_columns = ['DATE', 'OPEN', 'CLOSE', 'HIGH',
-    #                      'LOW', 'LTP', 'VOLUME', 'VALUE', 'NO OF TRADES']
     return data.to_csv(filename, index=False)
 
 def main(symbol, years):
 
     stock_data = download_stock_data(symbol, years)
-    # write_to_csv(stock_data, "stocks.csv")
     write_to_csv(stock_data, f"{symbol}.csv")
 
 if __name__ == "__main__":
-    # if len(sys.argv) != 3:
-    #     print("Usage: python main.py <symbol> <years>")
-    #     sys.exit(1)
     symbol = sys.argv[1]
     years = int(sys.argv[2])  
-    # symbol = input("Enter stock symbol: ")
-    # years = int(input("Enter number of years: "))
     main(symbol, years)

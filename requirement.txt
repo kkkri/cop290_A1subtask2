@@ -12,3 +12,4 @@ jugaad_data
 pandas
 matplotlib
 pyarrow
+subprocess

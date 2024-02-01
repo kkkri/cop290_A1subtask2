@@ -1,108 +1,52 @@
-/* style.css */
-/* body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f2f2f2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
-
-.login-container {
-    background-color: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    width: 300px;
-}
-
-.login-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.welcome-container {
-    text-align: center;
-    background-color: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    margin: auto;
-}
-
-.welcome-container h1 {
-    margin-bottom: 20px;
-}
-
-.logout-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #dc3545;
-    color: white;
-    border-radius: 5px;
-    text-decoration: none;
-}
-
-.logout-button:hover {
-    background-color: #c82333;
-} */
-
-/* Add this to your style.css */
 body {
-    background-image: url('/static/6379114.jpg');  /* Adjust the path based on your folder structure */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 100vh; /* Ensure full viewport height */
-    margin: 0; /* Remove default margin */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background-image: url("/static/6379114.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .form-container {
-    background-color: rgba(255, 255, 255, 0.8); /* Add a semi-transparent background for better readability */
-    padding: 30px;
-    border-radius: 10px;
-    text-align: center;
-    width: 250px; /* Set a specific width */
-    max-width: 80%; /* Use maximum width for smaller screens */
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  width: 250px;
+  max-width: 80%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 .form-container h2 {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 .form-group {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
-input[type="text"], input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
 }
 
 button {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 6px;
-    background: linear-gradient(to right, #007bff, #025bb4c3);
-    /* Fallback background color in case gradients are not supported */
-    background-color: #007bff;
-    color: #fff; /* Set text color to white */
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out; /* Add a smooth transition effect */
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(to right, #007bff, #025bb4c3);
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
 }
 
 button:hover {
-    background-color: #00060b; /* Change the background color on hover */
+  background-color: #00060b;
 }
-
-
-

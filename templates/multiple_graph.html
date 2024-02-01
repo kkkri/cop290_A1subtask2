@@ -1,337 +1,244 @@
-<!-- templates/home.html
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stock Analysis</title>
-</head>
-<body>
-    <h1>Stock Analysis</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <form action="/plot" method="post">
-        <label for="symbol">Stock Symbol:</label>
-        <input type="text" name="symbol" required>
+    <title>Multiple graph</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
 
-        <label for="years">Number of Years:</label>
-        <input type="number" name="years" required>
+      body {
+        background-image: url(static/paisa.jpg);
+        background-size: cover;
+        background-position: center;
+        font-family: sans-serif;
+      }
 
-        <button type="submit">Plot</button>
-    </form>
+      .menu-bar {
+        background: rgb(0, 100, 97);
+        text-align: center;
+      }
 
-    {% if plot_url %}
-        <img src="data:image/png;base64,{{ plot_url }}" alt="Stock Plot">
-    {% endif %}
-</body>
-</html> -->
+      .menu-bar ul {
+        display: inline-flex;
+        list-style: none;
+        color: white;
+      }
 
-<!-- templates/home.html -->
-<!DOCTYPE html>
-<html lang="en">
+      .menu-bar ul li {
+        width: 120px;
+        margin: 15px;
+        padding: 15px;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- <link rel="stylesheet" href="Static/style2.css"> -->
-  <!-- <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-      crossorigin="anonymous"/> -->
+      .menu-bar ul li a {
+        text-decoration: none;
+        color: white;
+      }
 
-  <title>Multiple graph</title>
-  <style>
-    * {
-      padding: 0;
-      margin: 0;
-      box-sizing: border-box;
-    }
+      .active,
+      .menu-bar ul li :hover {
+        background: rgba(100, 65, 0, 0.938);
+        border-radius: 3px;
+      }
 
-    body {
-      background-image: url(static/paisa.jpg);
-      background-size: cover;
-      background-position: center;
-      font-family: sans-serif;
-    }
+      .menu-bar ul li :hover {
+        background: rgba(100, 65, 0, 0.938);
+        border-radius: 6px;
+      }
 
-    .menu-bar {
-      background: rgb(0, 100, 97);
-      text-align: center;
-    }
+      .sub-menu {
+        display: none;
+      }
 
-    .menu-bar ul {
-      display: inline-flex;
-      list-style: none;
-      color: white;
-    }
+      .menu-bar ul li:hover .sub-menu {
+        display: block;
+        position: absolute;
+        background: rgb(0, 100, 97);
+        margin-top: 15px;
+        margin-left: -15px;
+      }
 
-    .menu-bar ul li {
-      width: 120px;
-      /* height:50px; */
-      margin: 15px;
-      padding: 15px;
-      /* position:relative; */
-    }
+      .menu-bar ul li:hover .sub-menu ul {
+        display: block;
+        margin: 10px;
+      }
 
-    .menu-bar ul li a {
-      text-decoration: none;
-      color: white;
-      /* display:block;
-    padding: 10px; */
-    }
+      .menu-bar ul li:hover .sub-menu ul li {
+        width: 150px;
+        padding: 10px;
+        border-bottom: 1px dotted #fff;
+        background: transparent;
+        border-radius: 0;
+        text-align: left;
+      }
 
-    .active,
-    .menu-bar ul li :hover {
-      background: rgba(100, 65, 0, 0.938);
-      border-radius: 3px;
-    }
+      .menu-bar ul li:hover .sub-menu ul li:last-child {
+        border-bottom: none;
+      }
 
-    .menu-bar ul li :hover {
-      /* background: rgb(0, 100, 97); */
-      background: rgba(100, 65, 0, 0.938);
-      /* background: #2bab0d; */
-      border-radius: 6px;
-    }
+      .container {
+        margin: 50px auto;
+        max-width: 500px;
+      }
 
-    .sub-menu {
-      display: none;
-    }
+      .card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        background-color: rgba(255, 255, 255, 0.8);
+      }
 
-    .menu-bar ul li:hover .sub-menu {
-      display: block;
-      position: absolute;
-      /* background-color: rgb(0, 100, 0); */
-      background: rgb(0, 100, 97);
-      margin-top: 15px;
-      margin-left: -15px;
-    }
+      .card-body {
+        padding: 30px;
+      }
 
-    .menu-bar ul li:hover .sub-menu ul {
-      display: block;
-      margin: 10px;
-    }
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        text-align: center;
+      }
 
-    .menu-bar ul li:hover .sub-menu ul li {
-      width: 150px;
-      padding: 10px;
-      border-bottom: 1px dotted #fff;
-      background: transparent;
-      border-radius: 0;
-      text-align: left;
-    }
+      .form-group {
+        margin-bottom: 20px;
+        margin-right: 20px;
+      }
 
-    .menu-bar ul li:hover .sub-menu ul li:last-child {
-      border-bottom: none;
-    }
+      label {
+        font-weight: bold;
+      }
 
-    .container {
-      margin: 50px auto;
-      /* Center the container on the page */
-      max-width: 500px;
-      /* Set a maximum width for the container */
-    }
+      .form-control {
+        display: block;
+        width: 100%;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      }
 
-    .card {
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      /* background-color: #f8f9fa; */
-      border-radius: 10px;
-      background-color: rgba(255, 255, 255, 0.8);
-      /* background: linear-gradient(135deg, #ffffff, #fdfaf2); */
-    }
+      .btn {
+        display: inline-block;
+        font-weight: 400;
+        width: 100%;
+        color: #fff;
+        text-align: center;
+        vertical-align: middle;
+        user-select: none;
+        margin-bottom: 10px;
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        border: 1px solid #007bff;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border-radius: 0.25rem;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+          border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        cursor: pointer;
+      }
 
-    .card-body {
-      padding: 30px;
-    }
+      .btn:hover {
+        color: #fff;
+        background: linear-gradient(135deg, #0056b3, #003366);
+        border-color: #0056b3;
+      }
+    </style>
+  </head>
 
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 30px;
-      text-align: center;
-    }
+  <body class="bg-light">
+    <div class="menu-bar">
+      <ul>
+        <li class="active">
+          <a href="{{ url_for('dashboard') }}">TradeSim</a>
+        </li>
+        <li><a href="{{ url_for('dashboard') }}">Home</a></li>
+        <li><a href="{{url_for ('about_us')}}">About us</a></li>
+        <li>
+          <a href="#">Options</a>
+          <div class="sub-menu">
+            <ul>
+              <li><a href="{{ url_for('single_graph') }}">Plot graph</a></li>
+              <li>
+                <a href="{{ url_for('multiple_graph') }}"
+                  >Plot multiple graphs</a
+                >
+              </li>
+              <li><a href="{{ url_for('list_stocks') }}">List of stocks</a></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <a href="{{ url_for('open_pdf') }}" target="_blank">Documentation</a>
+        </li>
+        <li class="active"><a href="{{ url_for('logout') }}">Logout</a></li>
+      </ul>
+    </div>
 
-    .form-group {
-      margin-bottom: 20px;
-      margin-right: 20px;
-    }
-
-    label {
-      font-weight: bold;
-    }
-
-    .form-control {
-      display: block;
-      width: 100%;
-      padding: 0.375rem 0.75rem;
-      font-size: 1rem;
-      line-height: 1.5;
-      color: #495057;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      background-color: #fff;
-      background-clip: padding-box;
-      border: 1px solid #ced4da;
-      border-radius: 0.25rem;
-      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    }
-
-    .btn {
-      display: inline-block;
-      font-weight: 400;
-      width: 100%;
-      color: #fff;
-      text-align: center;
-      vertical-align: middle;
-      user-select: none;
-      margin-bottom: 10px;
-      /* background-color: #007bff; */
-      background: linear-gradient(135deg, #007bff, #0056b3);
-      border: 1px solid #007bff;
-      padding: 0.375rem 0.75rem;
-      font-size: 1rem;
-      line-height: 1.5;
-      border-radius: 0.25rem;
-      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-        border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      color: #fff;
-      /* background-color: #0056b3; */
-      background: linear-gradient(135deg, #0056b3, #003366);
-      border-color: #0056b3;
-    }
-  </style>
-</head>
-
-<body class="bg-light">
-  <div class="menu-bar">
-    <ul>
-      <li class="active"><a href="{{ url_for('dashboard') }}">TradeSim</a></li>
-      <li><a href="{{ url_for('dashboard') }}">Home</a></li>
-      <li><a href="{{url_for ('about_us')}}">About us</a></li>
-      <li><a href="#">Options</a>
-        <div class="sub-menu">
-          <ul>
-            <li><a href="{{ url_for('single_graph') }}">Plot graph</a></li>
-            <li><a href="{{ url_for('multiple_graph') }}">Plot multiple graphs</a></li>
-            <li><a href="{{ url_for('list_stocks') }}">List of stocks</a></li>
-          </ul>
-        </div>
-      </li>
-      <li><a href="{{ url_for('open_pdf') }}" target="_blank">Documentation</a></li>
-      <li class="active"><a href="{{ url_for('logout') }}">Logout</a></li>
-    </ul>
-  </div>
-
-
-
-
-
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <h1 class="text-center mb-4">Multiple Stock Analysis</h1>
-            <form action="/multiple_plot" method="post">
-              <div class="form-group">
-                <label for="symbol1">Stock Symbol 1:</label>
-                <input type="text" class="form-control" name="symbol1" placeholder="for e.g. SBIN" required>
-              </div>
-              <div class="form-group">
-                <label for="symbol2">Stock Symbol 2:</label>
-                <input type="text" class="form-control" name="symbol2" placeholder="for e.g. WIPRO" required>
-              </div>
-              <div class="form-group">
-                <label for="symbol3">Stock Symbol 3:</label>
-                <input type="text" class="form-control" name="symbol3" placeholder="for e.g. CIPLA" required>
-              </div>
-              <div class="form-group">
-                <label for="years">Number of Years:</label>
-                <input type="number" class="form-control" name="years" placeholder="5" required>
-              </div>
-              <button type="submit" class="btn btn-primary btn-block">Generate Plots</button>
-            </form>
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h1 class="text-center mb-4">Multiple Stock Analysis</h1>
+              <form action="/multiple_plot" method="post">
+                <div class="form-group">
+                  <label for="symbol1">Stock Symbol 1:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="symbol1"
+                    placeholder="for e.g. SBIN"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="symbol2">Stock Symbol 2:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="symbol2"
+                    placeholder="for e.g. WIPRO"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="symbol3">Stock Symbol 3:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="symbol3"
+                    placeholder="for e.g. CIPLA"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="years">Number of Years:</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="years"
+                    placeholder="5"
+                    required
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                  Generate Plots
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- <h2>Multiple Stock Analysis</h2>
-
-    {% if plot_url %}
-        <img src="data:image/png;base64,{{ plot_url }}" alt="Multiple Stock Plot">
-    {% endif %}
-
-    <form action="/plot_multiple" method="post">
-      <div>
-        <label for="symbol1">Stock Symbol 1:</label>
-        <input type="text" name="symbol1" required />
-        <label for="years1">Number of Years 1:</label>
-        <input type="number" name="years1" required />
-      </div>
-
-      <div>
-        <label for="symbol1">Stock Symbol 2:</label>
-        <input type="text" name="symbol2" required />
-        <label for="years2">Number of Years 2:</label>
-        <input type="number" name="years2" required />
-      </div>
-
-      <div>
-      <label for="symbol3">Stock Symbol 3:</label>
-      <input type="text" name="symbol3" required />
-      <label for="years3">Number of Years 3:</label>
-      <input type="number" name="years3" required />
-      </div>
-
-      <button type="submit">Plot Multiple Graphs</button>
-    </form> -->
-
-  <!-- <form action="/plot" method="post">
-        <label for="symbol">Stock Symbol:</label>
-        <input type="text" name="symbol" required>
-
-        <label for="years">Number of Years:</label>
-        <input type="number" name="years" required>
-
-        <button type="submit">Plot</button>
-    </form> -->
-
-  <!-- <div class="filter-dropdown">
-      <label for="filter">Filter:</label>
-      <select id="filter" name="filter">
-        <option value="monthly">Monthly</option>
-        <option value="quarterly">Quarterly</option>
-        <option value="yearly">Yearly</option>
-      </select> -->
-  <!-- <button type="button" onclick="applyFilter()">Apply Filter</button> -->
-  <!-- </div> -->
-
-  <!-- {% if plot_url %}
-    <img src="data:image/png;base64,{{ plot_url }}" alt="Stock Plot" />
-    {% endif %}
-
-    <script>
-      function applyFilter() {
-        var filterValue = document.getElementById("filter").value;
-        var form = document.querySelector("form");
-        form.action = "/plot?filter=" + filterValue;
-        form.submit();
-      } -->
-  </script>
-
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
-    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-    crossorigin="anonymous"></script>
-</body>
-
+  </body>
 </html>
