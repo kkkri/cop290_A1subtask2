@@ -28,19 +28,20 @@
 <!-- templates/home.html -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
-    <title>Nifty 50 Company List</title>
-    <style>
-      * {
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-      }
 
-      /* body {
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+  <title>Nifty 50 Company List</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    /* body {
       font-family: 'Arial', sans-serif;
       background-color: #f0f0f0;
       color: #333;
@@ -52,92 +53,92 @@
       margin: 0;
     } */
 
-      body {
-        background-image: url(static/paisa.jpg);
-        background-size: cover;
-        background-position: center;
-        font-family: sans-serif;
-      }
+    body {
+      background-image: url(static/paisa.jpg);
+      background-size: cover;
+      background-position: center;
+      font-family: sans-serif;
+    }
 
-      .menu-bar {
-        background: rgb(0, 100, 97);
-        text-align: center;
-      }
+    .menu-bar {
+      background: rgb(0, 100, 97);
+      text-align: center;
+    }
 
-      .menu-bar ul {
-        display: inline-flex;
-        list-style: none;
-        color: white;
-      }
+    .menu-bar ul {
+      display: inline-flex;
+      list-style: none;
+      color: white;
+    }
 
-      .menu-bar ul li {
-        width: 120px;
-        /* height:50px; */
-        margin: 15px;
-        padding: 15px;
-        /* position:relative; */
-      }
+    .menu-bar ul li {
+      width: 120px;
+      /* height:50px; */
+      margin: 15px;
+      padding: 15px;
+      /* position:relative; */
+    }
 
-      .menu-bar ul li a {
-        text-decoration: none;
-        color: white;
-        /* display:block;
+    .menu-bar ul li a {
+      text-decoration: none;
+      color: white;
+      /* display:block;
     padding: 10px; */
-      }
+    }
 
-      .active,
-      .menu-bar ul li :hover {
-        background: rgba(100, 65, 0, 0.938);
-        border-radius: 3px;
-      }
+    .active,
+    .menu-bar ul li :hover {
+      background: rgba(100, 65, 0, 0.938);
+      border-radius: 3px;
+    }
 
-      .menu-bar ul li :hover {
-        /* background: rgb(0, 100, 97); */
-        background: rgba(100, 65, 0, 0.938);
-        /* background: #2bab0d; */
-        border-radius: 6px;
-      }
+    .menu-bar ul li :hover {
+      /* background: rgb(0, 100, 97); */
+      background: rgba(100, 65, 0, 0.938);
+      /* background: #2bab0d; */
+      border-radius: 6px;
+    }
 
-      .sub-menu {
-        display: none;
-      }
+    .sub-menu {
+      display: none;
+    }
 
-      .menu-bar ul li:hover .sub-menu {
-        display: block;
-        position: absolute;
-        /* background-color: rgb(0, 100, 0); */
-        background: rgb(0, 100, 97);
-        margin-top: 15px;
-        margin-left: -15px;
-      }
+    .menu-bar ul li:hover .sub-menu {
+      display: block;
+      position: absolute;
+      /* background-color: rgb(0, 100, 0); */
+      background: rgb(0, 100, 97);
+      margin-top: 15px;
+      margin-left: -15px;
+    }
 
-      .menu-bar ul li:hover .sub-menu ul {
-        display: block;
-        margin: 10px;
-      }
+    .menu-bar ul li:hover .sub-menu ul {
+      display: block;
+      margin: 10px;
+    }
 
-      .menu-bar ul li:hover .sub-menu ul li {
-        width: 150px;
-        padding: 10px;
-        border-bottom: 1px dotted #fff;
-        background: transparent;
-        border-radius: 0;
-        text-align: left;
-      }
+    .menu-bar ul li:hover .sub-menu ul li {
+      width: 150px;
+      padding: 10px;
+      border-bottom: 1px dotted #fff;
+      background: transparent;
+      border-radius: 0;
+      text-align: left;
+    }
 
-      .menu-bar ul li:hover .sub-menu ul li:last-child {
-        border-bottom: none;
-      }
+    .menu-bar ul li:hover .sub-menu ul li:last-child {
+      border-bottom: none;
+    }
 
-      h1 {
-        text-align: center;
-        color: #f8f9fa;
-        margin-top: 60px;
-        margin-bottom: 20px;
-        font-size: 100;
-      }
+    h1 {
+      text-align: center;
+      color: #f8f9fa;
+      margin-top: 60px;
+      margin-bottom: 20px;
+      font-size: 100;
+    }
 
-      /* form {
+    /* form {
       margin-top: 20px;
       margin-bottom: 10px;
       color: #f8f9fa;
@@ -145,7 +146,7 @@
       font-size: large;
     } */
 
-      /* ul {
+    /* ul {
       list-style-type: none;
       padding: 0;
       display: flex;
@@ -161,122 +162,130 @@
       border-radius: 5px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     } */
-      form {
-        /* margin-top: 20px; */
-        margin-bottom: 20px;
-        color: #f8f9fa;
-        text-align: center;
-        font-size: large;
-      }
+    form {
+      /* margin-top: 20px; */
+      margin-bottom: 20px;
+      color: #f8f9fa;
+      text-align: center;
+      font-size: large;
+    }
 
-      /* form div {
+    /* form div {
         margin-bottom: 10px;
       } */
+    button {
+      padding: 5px 10px;
+      border: none;
+      background-color: #fff;
+      color: #000;
+      cursor: pointer;
+      /* transition: background-color 0.3s ease-in-out; */
+      border-radius: 8px;
+    }
 
-      /* Add this style for the last form */
-      form:last-child div {
-        margin-bottom: 30px; /* Increase the margin for the last form */
-      }
+    button:hover {
+      background-color: #808080;
+      /* Adjust the hover color to match the second color of the gradient */
+    }
 
-      ul.content-list {
-        list-style-type: none;
-        padding: 0;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
+    /* Add this style for the last form */
+    form:last-child div {
+      margin-bottom: 30px;
+      /* Increase the margin for the last form */
+    }
 
-      ul.content-list li {
-        margin: 5px;
-        background-color: #f8f9fa;
-        border: 1px solid #ddd;
-        padding: 10px;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
+    ul.content-list {
+      list-style-type: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
 
-      .bottom-text {
-        position: fixed;
-        bottom: 30px; /* Adjust the distance from the bottom as needed */
-        right: 10px; /* Adjust the distance from the right as needed */
-        color: #f8f9fa; /* Set the text color */
-        font-size: 12px; /* Set the font size */
-      }
-    </style>
-  </head>
+    ul.content-list li {
+      margin: 5px;
+      background: linear-gradient(to right, #f8f9fa, #ffffff);
+      background-color: #f8f9fa;
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-  <body>
-    <div class="menu-bar">
-      <ul>
-        <li class="active">
-          <a href="{{ url_for('dashboard') }}">TradeSim</a>
-        </li>
-        <li><a href="{{ url_for('dashboard') }}">Home</a></li>
-        <li><a href="{{url_for ('about_us')}}">About us</a></li>
-        <li>
-          <a href="#">Options</a>
-          <div class="sub-menu">
-            <ul>
-              <li><a href="{{ url_for('single_graph') }}">Plot graph</a></li>
-              <li>
-                <a href="{{ url_for('multiple_graph') }}"
-                  >Plot multiple graphs</a
-                >
-              </li>
-              <li><a href="{{ url_for('list_stocks') }}">List of stocks</a></li>
-            </ul>
-          </div>
-        </li>
-        <li><a href="{{ url_for('open_pdf') }}" target="_blank">Documentation</a></li>
-        <li class="active"><a href="{{ url_for('logout') }}">Logout</a></li>
-      </ul>
+    .bottom-text {
+      position: fixed;
+      bottom: 30px;
+      /* Adjust the distance from the bottom as needed */
+      right: 10px;
+      /* Adjust the distance from the right as needed */
+      color: #f8f9fa;
+      /* Set the text color */
+      font-size: 12px;
+      /* Set the font size */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="menu-bar">
+    <ul>
+      <li class="active">
+        <a href="{{ url_for('dashboard') }}">TradeSim</a>
+      </li>
+      <li><a href="{{ url_for('dashboard') }}">Home</a></li>
+      <li><a href="{{url_for ('about_us')}}">About us</a></li>
+      <li>
+        <a href="#">Options</a>
+        <div class="sub-menu">
+          <ul>
+            <li><a href="{{ url_for('single_graph') }}">Plot graph</a></li>
+            <li>
+              <a href="{{ url_for('multiple_graph') }}">Plot multiple graphs</a>
+            </li>
+            <li><a href="{{ url_for('list_stocks') }}">List of stocks</a></li>
+          </ul>
+        </div>
+      </li>
+      <li><a href="{{ url_for('open_pdf') }}" target="_blank">Documentation</a></li>
+      <li class="active"><a href="{{ url_for('logout') }}">Logout</a></li>
+    </ul>
+  </div>
+
+  <h1>Nifty 50 Company List</h1>
+
+  <form action="/apply_filters1" method="post">
+    <div>
+      <label for="average_price">Filter stocks above average price*</label>
+      <input type="checkbox" id="average_price" name="average_price" />
+      <button type="submit">Apply</button>
     </div>
+  </form>
 
-    <h1>Nifty 50 Company List</h1>
+  <form action="/apply_filters2" method="post">
+    <div>
+      <label for="top10">Filter Top 10 stocks*</label>
+      <input type="checkbox" id="top10" name="top10" />
+      <button type="submit">Apply</button>
+    </div>
+  </form>
 
-    <form action="/apply_filters1" method="post">
-      <div>
-        <label for="average_price">Filter stocks above average price*</label>
-        <input type="checkbox" id="average_price" name="average_price" />
-        <button type="submit">Apply</button>
-      </div>
-    </form>
+  <form action="/apply_filters3" method="post">
+    <div>
+      <label for="range">Filter company by closing price range:</label>
 
-    <form action="/apply_filters2" method="post">
-      <div>
-        <label for="top10">Filter Top 10 stocks*</label>
-        <input type="checkbox" id="top10" name="top10" />
-        <button type="submit">Apply</button>
-      </div>
-    </form>
+      <!-- Input box for "from" value -->
+      <label for="from">From:</label>
+      <input type="number" id="from" name="from" placeholder="Enter minimum value" />
 
-    <form action="/apply_filters3" method="post">
-      <div>
-        <label for="range">Filter company by closing price range:</label>
+      <!-- Input box for "to" value -->
+      <label for="to">To:</label>
+      <input type="number" id="to" name="to" placeholder="Enter maximum value" />
 
-        <!-- Input box for "from" value -->
-        <label for="from">From:</label>
-        <input
-          type="number"
-          id="from"
-          name="from"
-          placeholder="Enter minimum value"
-        />
+      <button type="submit">Apply</button>
+    </div>
+  </form>
 
-        <!-- Input box for "to" value -->
-        <label for="to">To:</label>
-        <input
-          type="number"
-          id="to"
-          name="to"
-          placeholder="Enter maximum value"
-        />
-
-        <button type="submit">Apply</button>
-      </div>
-    </form>
-
-    <!-- <form action="/apply_filters" method="post">
+  <!-- <form action="/apply_filters" method="post">
     <label for="average_price">Apply Filters: By Average Price (as on 25-01-2024)</label>
     <input type="checkbox" id="average_price" name="average_price">
     <button type="submit">Apply</button>
@@ -285,14 +294,15 @@
     <button type="submit">Apply</button>
   </form> -->
 
-    <ul class="content-list">
-      {% for company in companies %}
-      <li>{{ company }}</li>
-      {% endfor %}
-    </ul>
+  <ul class="content-list">
+    {% for company in companies %}
+    <li>{{ company }}</li>
+    {% endfor %}
+  </ul>
 
-    <div class="bottom-text">
-      <p>* Stock data as on 25-01-2024</p>
-    </div>
-  </body>
+  <div class="bottom-text">
+    <p>* Stock data as on 01-02-2024</p>
+  </div>
+</body>
+
 </html>

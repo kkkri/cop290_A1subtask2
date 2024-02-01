@@ -91,10 +91,18 @@ button {
     width: 100%;
     padding: 10px;
     border: none;
+    border-radius: 6px;
+    background: linear-gradient(to right, #007bff, #025bb4c3);
+    /* Fallback background color in case gradients are not supported */
     background-color: #007bff;
-
+    color: #fff; /* Set text color to white */
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out; /* Add a smooth transition effect */
 }
 
+button:hover {
+    background-color: #00060b; /* Change the background color on hover */
+}
 
 
 
