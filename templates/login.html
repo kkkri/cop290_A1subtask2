@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,11 @@
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
     <div class="form-container">
         <h2>Login</h2>
-        <form action="/login" method="post">
+        <form id="loginForm" action="/login" method="post" onsubmit="return attemptLogin()">
             <div class="form-group">
                 <input type="text" name="username" placeholder="Username" required>
             </div>
@@ -22,6 +24,84 @@
             </div>
         </form>
         <p>Don't have an account? <a href="/register">Register here</a></p>
+
+
     </div>
+    <script>
+        function attemptLogin() {
+            // Perform your login logic here (e.g., check credentials)
+            // For simplicity, let's assume the login is successful
+            const isSuccess = true;
+
+            if (isSuccess) {
+                // Trigger dynamic confetti on successful login
+                createDynamicConfetti();
+                return true; // Allow the form submission
+            } else {
+                // Show an alert or handle unsuccessful login
+                alert('Login failed. Please check your credentials.');
+                return false; // Prevent the form submission
+            }
+        }
+
+        function createDynamicConfetti() {
+            const confettiContainer = document.createElement('div');
+            confettiContainer.classList.add('confetti-container');
+            document.body.appendChild(confettiContainer);
+
+            const particleCount = 500;
+            for (let i = 0; i < particleCount; i++) {
+                createConfettiParticle(confettiContainer);
+            }
+
+            // Remove the confetti after a certain duration
+            setTimeout(() => {
+                document.body.removeChild(confettiContainer);
+            }, 1000); // Adjust the duration as needed
+        }
+
+        function createConfettiParticle(container) {
+            const confettiParticle = document.createElement('div');
+            confettiParticle.classList.add('confetti-particle');
+            container.appendChild(confettiParticle);
+
+            // Initial position and size
+            const initialX = Math.random() * window.innerWidth;
+            const initialY = Math.random() * window.innerHeight;
+            const size = Math.random() * 10 + 5;
+
+            // Apply styles
+            confettiParticle.style.width = size + 'px';
+            confettiParticle.style.height = size + 'px';
+            confettiParticle.style.background = getRandomColor();
+            confettiParticle.style.position = 'absolute';
+            confettiParticle.style.left = initialX + 'px';
+            confettiParticle.style.top = initialY + 'px';
+
+            // Animation
+            const animationDuration = Math.random() * 5 + 3; // Adjust as needed
+            confettiParticle.style.transition = `transform ${animationDuration}s ease-out`;
+
+            // Apply animation after a short delay to allow initial styling
+            setTimeout(() => {
+                const angle = Math.random() * 360;
+                const distance = Math.random() * 200 + 100;
+                const endX = initialX + distance * Math.cos(angle);
+                const endY = initialY + distance * Math.sin(angle);
+
+                confettiParticle.style.transform = `translate(${endX}px, ${endY}px) rotate(${Math.random() * 720}deg)`;
+            }, 10);
+        }
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    </script>
 </body>
+
 </html>
